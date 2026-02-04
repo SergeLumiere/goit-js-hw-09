@@ -19,12 +19,16 @@ form.addEventListener('input', event => {
 
   formData[name] = value;
 
-  const dataToSave = {
-    email: formData.email.trim(),
-    message: formData.message.trim(),
-  };
+  const email = form.elements.email.value.trim();
+  const message = form.elements.message.value.trim();
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+  form.elements.email.value = email;
+  form.elements.message.value = message;
+
+  formData.email = email;
+  formData.message = message;
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 });
 
 form.addEventListener('submit', event => {
@@ -35,11 +39,7 @@ form.addEventListener('submit', event => {
     return;
   }
 
-  const submitData = {
-    email: formData.email.trim(),
-    message: formData.message.trim(),
-  };
-  console.log(submitData);
+  console.log(formData);
 
   localStorage.removeItem(STORAGE_KEY);
 
