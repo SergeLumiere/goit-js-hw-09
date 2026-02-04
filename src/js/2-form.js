@@ -4,8 +4,17 @@ const formData = { email: '', message: '' };
 const form = document.querySelector('.feedback-form');
 
 form.addEventListener('input', event => {
-  formData[event.target.name] = event.target.value.trim();
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  const { name, value } = event.target;
+  if (!name) return;
+
+  formData[name] = value;
+
+  const dataToSave = {
+    email: formData.email.trim(),
+    message: formData.message.trim(),
+  };
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
 });
 
 const saved = localStorage.getItem(STORAGE_KEY);
@@ -21,7 +30,7 @@ if (saved !== null) {
 form.addEventListener('submit', event => {
   event.preventDefault();
 
-  if (formData.email === '' || formData.message === '') {
+  if (formData.email.trim() === '' || formData.message.trim() === '') {
     alert('Fill please all fields');
     return;
   }
